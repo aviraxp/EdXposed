@@ -231,7 +231,7 @@ static void ensureMethodCached(void *hookMethod, void *backupMethod,
     }
 
     // finally the addr of backup method is put at the corresponding location in cached methods array
-    if (SDKVersion >= ANDROID_O2) {
+    if (SDKVersion == ANDROID_O2) {
         // array of MethodDexCacheType is used as dexCacheResolvedMethods in Android 8.1
         // struct:
         // struct NativeDexCachePair<T> = { T*, size_t idx }
@@ -247,11 +247,6 @@ static void ensureMethodCached(void *hookMethod, void *backupMethod,
                &methodIndex,
                pointer_size
         );
-    } else {
-        memcpy((char *) dexCacheResolvedMethods + OFFSET_array_in_PointerArray +
-               pointer_size * methodIndex,
-               (&backupMethod),
-               pointer_size);
     }
 }
 
